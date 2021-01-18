@@ -1,0 +1,125 @@
+// Elements
+
+// Components
+.v-page-header_container {
+  position: relative;
+  left: 0%;
+  right: 0%;
+  top: 0%;
+  // height: 166px; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(180deg, #090810 0%, #171236 100%);
+  
+  .v-page-header_top-parts {
+    display: flex;
+    justify-content: space-between;
+    width: 1088px;   
+    margin-top: 20px;
+    margin-bottom: 5px;
+    .v-page-header_logo {
+      img {
+        width: 102px;
+        height: 42px;
+      }
+    }
+    .right_part {
+      display: flex;
+      align-items: center;
+      .add {
+        padding: 5px 40px;
+        border-radius: 4px;
+        background: #349a89;
+        text-transform: uppercase;
+        font-size: 14px;
+        margin-right: 32px;
+        display: none; 
+      }
+      .login{
+        font-size: 12px;
+        margin-right: 32px;
+        text-transform: uppercase;
+      }
+      .user_ico {
+        height: 30px;
+        width: 30px;
+        margin-right: 32px;
+        display: none;
+        img{
+          height: 30px;
+        }
+        
+      } 
+      .like_filter {
+        display: none; 
+        img {
+          height: 20px;
+        }
+      }
+    }
+  }
+  .v-page-header_bottom-parts {
+    display: flex;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    display: none;
+    .search_by_name {
+      width: 467px;
+      height: 50px;
+      border-radius: 4px;
+      margin-right: 7px;
+      background-image: url(../img/search-solid.svg);
+      background-repeat: no-repeat;
+      background-position: 20px;
+      background-size: auto 30%;
+      outline: none;
+      padding-left: 50px;
+      font-size: 15px;
+    }
+    .search_by_position {
+      width: 198px;
+      height: 50px;
+      border-radius: 4px;
+      margin-right: 7px;
+      background-image: url(../img/map-marker-alt-solid.svg);
+      background-repeat: no-repeat;
+      background-position: 20px;
+      background-size: auto 30%;
+      outline: none;
+      padding-left: 50px;
+      font-size: 15px;
+    }
+    .search_button {
+      display: inline-block;
+      padding: 15px 59px;
+      border-radius: 4px;
+      background: #3e3961;
+      cursor: pointer;
+      font-size: 14px;
+      text-transform: uppercase;
+      color: #ffffff;
+    }
+  }
+}
+
+.v-item_cards{
+  position: relative;
+ 
+  background: #F8F8F8;
+  .item_cards-filters{
+
+  }
+}
+// Sections
+.container {
+  position: relative;
+  max-width: 855px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.content_data{
+ height: inherit;
+}
+
+//modefication classes
