@@ -3,25 +3,26 @@ const Vuex = require("vuex");
 const AXIOS = require("axios");
 
 var firebase = require("firebase/firebase");
+var firebaseui = require("firebaseui");
 
 firebase.initializeApp({
-  apiKey: "AIzaSyByeuCAy8CQoymPiEx1yFY7hAxSaTV1l6E",
-  authDomain: "cinema-space.firebaseapp.com",
-  databaseURL: "https://cinema-space.firebaseio.com",
-  projectId: "cinema-space",
-  storageBucket: "cinema-space.appspot.com",
-  messagingSenderId: "359445031776",
-  appId: "1:359445031776:web:4e0294da31eb013734cc05",
+  apiKey: "AIzaSyDt0kfslviXFUVNtElpSCQ2H-ugqyk8pUA",
+  authDomain: "apico-app-1.firebaseapp.com",
+  projectId: "apico-app-1",
+  storageBucket: "apico-app-1.appspot.com",
+  messagingSenderId: "750049141342",
+  appId: "1:750049141342:web:cced084a2f3cf16e7acacf",
 });
 
 var db = firebase.firestore();
 var storage = firebase.storage();
+var auth = firebase.auth();
 
 Vue.use(Vuex);
 
 module.exports = new Vuex.Store({
   state: {
-    item:[],
+    item: [],
   },
 
   getters: {
@@ -83,7 +84,7 @@ module.exports = new Vuex.Store({
           strTime: data.strTime,
           drtn: data.drtn,
           release: data.release,
-          tcktPrice: data.tcktPrice
+          tcktPrice: data.tcktPrice,
         })
         .then(function (docRef) {
           console.log("Document written with ID: ", docRef.id);
@@ -95,8 +96,8 @@ module.exports = new Vuex.Store({
 
     uploadMoviePoster: function (file) {
       var postre = file; // use the Blob or File API
-      
+    },
 
-    }
+    
   },
 });

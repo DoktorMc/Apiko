@@ -23,5 +23,7 @@
     "vuex": "*",
     "firebase": "8.0.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "firebaseui": "^4.7.1"
+  }
 }

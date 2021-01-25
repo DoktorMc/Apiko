@@ -10,6 +10,12 @@ let routes = [
     props: true,
   },
   {
+    name: "reg",
+    path: "/reg",
+    component: require("./../../vue/pages/v-registration.vue"),
+    props: true,
+  },
+  {
     name: "login",
     path: "/login",
     component: require("./../../vue/pages/v-login.vue"),
