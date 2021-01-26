@@ -11,6 +11,9 @@
   margin-bottom: 14px;
   padding: 12px;
 }
+.input_erorr {
+  border: 1px solid #ff2929;
+}
 .input_title {
   font-family: Helvetica;
   font-size: 12px;
@@ -146,7 +149,7 @@
   }
 }
 
-.v-registration-container {
+.v-reg-log-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -172,7 +175,28 @@
       margin-bottom: 32px;
     }
   }
-  .for-log_in {
+
+  .login_form {
+    padding: 24px;
+    width: 425px;
+    height: 365px;
+    background: #ffffff;
+    box-shadow: 0px 2px 42px rgba(0, 0, 0, 0.111233);
+    border-radius: 7px;
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    .form_title {
+      font-family: Helvetica;
+      font-size: 22px;
+      line-height: 25px;
+      color: #282828;
+      text-align: center;
+      margin-bottom: 32px;
+    }
+  }
+
+  .for-log_in,
+  .for-register {
     width: 425px;
     height: 76px;
     background: #ffffff;

@@ -1,37 +1,55 @@
 <template>
-  <div class="v-registration-container">
+  <div class="v-reg-log-container">
     <div class="registration_form">
       <div class="form_title">Register</div>
       <div class="registration_form-email">
         <span class="input_title">Email</span>
         <input
           type="text"
-          name=""
-          id=""
+          v-model="email"
+          name="email"
+          id="email"
           class="email_input all_reg_log_input"
           placeholder="Example@gmail.com"
+          @input="onUpdate"
         />
       </div>
       <div class="registration_form-full_name">
         <span class="input_title">Full name</span>
         <input
           type="text"
-          name=""
-          id=""
+          v-model="name"
+          name="name"
+          id="name"
           class="full_name-input all_reg_log_input"
           placeholder="Tony Stark"
+          @input="onUpdate"
         />
       </div>
       <div class="registration_form-password">
         <span class="input_title">Password</span>
-        <input type="text" name="" id="" class="password_input all_reg_log_input" />
+        <input
+          type="text"
+          v-model="pass"
+          name="pass"
+          id="passw"
+          class="password_input all_reg_log_input"
+          @input="onUpdate"
+        />
       </div>
       <div class="registration_form-password">
         <span class="input_title">Password Again</span>
-        <input type="text" name="" id="" class="password_input all_reg_log_input" />
+        <input
+          type="text"
+          v-model="passAgain"
+          name="passAgain"
+          id="passwA"
+          class="password_input all_reg_log_input"
+          @input="onUpdate"
+        />
       </div>
 
-      <span class="form-button">Register</span>
+      <span class="form-button" @click="addUser()">Register</span>
     </div>
     <div class="for-log_in">
       <span class="for-log_in-text">I already have an account,</span>
@@ -43,15 +61,43 @@
 <script>
 module.exports = {
   data: function () {
-    return {};
+    return {
+      payload: {},
+      // email: null,
+      // name: null,
+      // pass: null,
+      // passAgain: null,
+    };
   },
-  methods: {},
+  methods: {
+    addUser: function () {
+      if (!this.payload.length) {
+        console.log(!this.payload.length);
+        console.log(this.payload);
+        this.$store.dispatch("addUser", this.payload);
+      } else {
+        console.log('EROOR !!!');
+        return;
+      }
+    },
+
+    onUpdate: function () {
+      // this.$store.commit("idForMovie");
+      let password = "";
+      if (this.pass == this.passAgain) {
+        password = this.pass;
+        this.payload = {
+          email: this.email,
+          pass: password,
+        };
+      } else {
+        this.payload = {};
+        return;
+      }
+    },
+  },
   computed: {},
 };
 </script>
 
-<style lang="scss" scoped>
-.v-page-header_container {
-  background: #ffffff;
-}
-</style>
+<style lang="scss" scoped></style>

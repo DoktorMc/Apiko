@@ -3,7 +3,7 @@ const Vuex = require("vuex");
 const AXIOS = require("axios");
 
 var firebase = require("firebase/firebase");
-var firebaseui = require("firebaseui");
+
 
 firebase.initializeApp({
   apiKey: "AIzaSyDt0kfslviXFUVNtElpSCQ2H-ugqyk8pUA",
@@ -80,11 +80,7 @@ module.exports = new Vuex.Store({
           id: 1,
           src: data.src,
           title: data.title,
-          genre: data.genre,
-          strTime: data.strTime,
-          drtn: data.drtn,
-          release: data.release,
-          tcktPrice: data.tcktPrice,
+          price: data.price,
         })
         .then(function (docRef) {
           console.log("Document written with ID: ", docRef.id);
@@ -98,6 +94,37 @@ module.exports = new Vuex.Store({
       var postre = file; // use the Blob or File API
     },
 
+    addUser: function ({ commit }, data) {
+      console.log('DATA : '+data);
+      console.log('Mail : '+data.email);
+      console.log('Password : '+data.pass);
+      auth.createUserWithEmailAndPassword(data.email, data.pass)
+      .then((userCredential) => {
+        // Signed in 
+        var user = userCredential.user;
+        console.log("User created : ", user);
+        // ...
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // ..
+      });
+    },
+
+    signIn: function ({ commit }, data) {
+      auth.signInWithEmailAndPassword(data.email, data.pass)
+      .then((userCredential) => {
+        // Signed in
+        var user = userCredential.user;
+        console.log('User is ' + user.uid + 'User email '+ user.email);
+        // ...
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+      });
+    }
     
   },
 });
