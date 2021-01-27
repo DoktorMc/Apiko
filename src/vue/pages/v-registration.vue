@@ -71,13 +71,15 @@ module.exports = {
   },
   methods: {
     addUser: function () {
-      if (!this.payload.length) {
+      if (Object.keys(this.payload).length == 0) {
+        console.log('EROOR !!!');
+        this.$router.go(0);
+        return;
+      } else {
+       
         console.log(!this.payload.length);
         console.log(this.payload);
         this.$store.dispatch("addUser", this.payload);
-      } else {
-        console.log('EROOR !!!');
-        return;
       }
     },
 
@@ -92,6 +94,7 @@ module.exports = {
         };
       } else {
         this.payload = {};
+        
         return;
       }
     },

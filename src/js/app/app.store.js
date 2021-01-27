@@ -3,7 +3,7 @@ const Vuex = require("vuex");
 const AXIOS = require("axios");
 
 var firebase = require("firebase/firebase");
-
+let router  = require('./app.router');
 
 firebase.initializeApp({
   apiKey: "AIzaSyDt0kfslviXFUVNtElpSCQ2H-ugqyk8pUA",
@@ -102,12 +102,14 @@ module.exports = new Vuex.Store({
       .then((userCredential) => {
         // Signed in 
         var user = userCredential.user;
-        console.log("User created : ", user);
+        alert(`Account created for ${user.email}`);
+        router.go({path: router.path});
         // ...
       })
       .catch((error) => {
         var errorCode = error.code;
         var errorMessage = error.message;
+        alert(`ERROR!!! ${errorMessage}`);
         // ..
       });
     },
@@ -118,6 +120,7 @@ module.exports = new Vuex.Store({
         // Signed in
         var user = userCredential.user;
         console.log('User is ' + user.uid + 'User email '+ user.email);
+        router.go({path: router.path});
         // ...
       })
       .catch((error) => {

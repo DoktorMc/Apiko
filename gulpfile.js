@@ -17,14 +17,14 @@ let config = {
       styles: "./build/css",
       scripts: "./build/js",
       images: "./build/img",
-      fonts: "./build/font",
+      fonts: "./build/fonts",
       html: "./build",
     },
     src: {
       styles: "./src/scss/index.scss",
       scripts: "./src/js/index.js",
       images: ["!./src/img/vector/sprite/*", "./src/img/**/*.*"],
-      fonts: "./src/font/*.*",
+      fonts: "./src/fonts/*.*",
       html: "./src/*.html",
     },
     watch: {

@@ -13,8 +13,8 @@
     </div>
     <div class="container">
       <div class="v-page-header_bottom-parts">
-        <input class="search_by_name" type="text" name="" id="" placeholder="Search products by name"/>
-        <input class="search_by_position" type="text" name="" id="" placeholder="Location"/>
+        <input class="search_by_name" type="text" name="search_by_name" id="search_by_name" placeholder="Search products by name"/>
+        <input class="search_by_position" type="text" name="search_by_position" id="search_by_position" placeholder="Location"/>
         <span class="search_button">Search</span>
       </div>
     </div>
@@ -32,4 +32,4 @@ module.exports = {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped></style> 
