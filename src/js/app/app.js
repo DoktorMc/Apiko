@@ -8,3 +8,8 @@ new Vue({
         return init(require('./../../vue/index.vue'));
     }
 })
+// firebase.auth().onAuthStateChanged(user => {
+//     if(!app){
+        
+//     }
+// });

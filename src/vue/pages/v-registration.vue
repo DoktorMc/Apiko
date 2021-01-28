@@ -63,10 +63,6 @@ module.exports = {
   data: function () {
     return {
       payload: {},
-      // email: null,
-      // name: null,
-      // pass: null,
-      // passAgain: null,
     };
   },
   methods: {

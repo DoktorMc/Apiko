@@ -16,7 +16,7 @@ firebase.initializeApp({
 
 var db = firebase.firestore();
 var storage = firebase.storage();
-var auth = firebase.auth();
+let auth = firebase.auth();
 
 Vue.use(Vuex);
 
@@ -103,7 +103,7 @@ module.exports = new Vuex.Store({
         // Signed in 
         var user = userCredential.user;
         alert(`Account created for ${user.email}`);
-        router.go({path: router.path});
+        router.replace({path: '/login'});
         // ...
       })
       .catch((error) => {
