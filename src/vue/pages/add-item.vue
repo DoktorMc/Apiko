@@ -1,5 +1,6 @@
 <template>
   <div class="add_movie_container">
+    <v-header></v-header>
     <span>Заполните все поля для добавления нового фильма</span>
     <form class="add_movie-form">
       <div class="add_movie-form_info">
@@ -95,7 +96,9 @@ module.exports = {
       payload: {},
     };
   },
-
+  components: {
+    "v-header": require("../components/v-page-header.vue"),
+  },
   methods: {
     writeMovie: function () {
       console.log(this.payload);

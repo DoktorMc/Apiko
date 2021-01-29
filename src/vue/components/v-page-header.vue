@@ -1,22 +1,22 @@
 <template>
   <div class="v-page-header_container">
     <div class="v-page-header_top-parts">
-      <router-link to="/" class="v-page-header_logo"
-        ><img src="img/logofull.png" alt=""
-      /></router-link>
+      <router-link to="/" class="v-page-header_logo"></router-link>
       <div class="right_part">
-        <router-link v-if="isLoggedIn" to="/add" class="add">+add</router-link>
-        <router-link v-if="!isLoggedIn" to="/login" class="login">Login</router-link>
-        <router-link v-if="isLoggedIn" to="" class="user_ico"
+        <router-link v-if="checkStatus" to="/add" class="add">+add</router-link>
+        <router-link v-if="!checkStatus" to="/login" class="login"
+          >Login</router-link
+        >
+        <router-link v-if="checkStatus" to="" class="user_ico"
           ><img src="img/user-circle-regular.svg" alt=""
         /></router-link>
-        <router-link v-if="isLoggedIn" to="" class="like_filter"
+        <router-link to="" class="like_filter"
           ><img src="img/heart-regular.svg" alt=""
         /></router-link>
       </div>
     </div>
     <div class="container">
-      <div v-if="isLoggedIn" class="v-page-header_bottom-parts">
+      <div class="v-page-header_bottom-parts">
         <input
           class="search_by_name"
           type="text"
@@ -38,27 +38,21 @@
 </template>
 
 <script>
-let firebase = require('firebase/firebase');
-
 module.exports = {
   data: function () {
     return {
-      isLogeedIn: false,
-      currentUser: false
+    
     };
   },
   props: {},
 
   methods: {},
-  created () {
-    console.log(this.isLogeedIn);
-    console.log(firebase.auth().currentUser);
-    if (firebase.auth().currentUser) {
-      this.isLogeedIn = true;
-      this.currentUser = firebase.auth().currentUser.email;
-      console.log(this.isLogeedIn);
+  computed: {
+    checkStatus() {
+      return this.$store.state.isLogeedIn; 
     }
   },
+  
 };
 </script>
 

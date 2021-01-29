@@ -1,5 +1,6 @@
 <template>
   <div class="v-item_cards">
+    <v-header></v-header>
     <div class="container">
       <div class="item_cards-filters">
         <div class="filters-category_drop_list">
@@ -17,6 +18,9 @@
 module.exports = {
   data: function () {
     return {};
+  },
+   components: {
+    "v-header": require("../components/v-page-header.vue"),
   },
   methods: {},
   computed: {},

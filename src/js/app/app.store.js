@@ -1,8 +1,7 @@
 const Vue = require("vue");
 const Vuex = require("vuex");
 const AXIOS = require("axios");
-
-var firebase = require("firebase/firebase");
+let firebase = require("firebase/firebase");
 let router  = require('./app.router');
 
 firebase.initializeApp({
@@ -22,6 +21,8 @@ Vue.use(Vuex);
 
 module.exports = new Vuex.Store({
   state: {
+    isLogeedIn: false,
+    currentUser: false,
     item: [],
   },
 
@@ -60,7 +61,9 @@ module.exports = new Vuex.Store({
         .movies[payload.id - 1].hall[payload.r][payload.s].reserved;
     },
 
-    writeMovieData: function (state, payload) {},
+    isLoggedIn(state, payload){
+      state.isLogeedIn = payload;
+    }
   },
 
   actions: {
@@ -103,7 +106,7 @@ module.exports = new Vuex.Store({
         // Signed in 
         var user = userCredential.user;
         alert(`Account created for ${user.email}`);
-        router.replace({path: '/login'});
+        router.push('/login');
         // ...
       })
       .catch((error) => {
@@ -120,7 +123,8 @@ module.exports = new Vuex.Store({
         // Signed in
         var user = userCredential.user;
         console.log('User is ' + user.uid + 'User email '+ user.email);
-        router.go({path: router.path});
+        commit('isLoggedIn', true);
+        router.push('/');
         // ...
       })
       .catch((error) => {
@@ -128,6 +132,5 @@ module.exports = new Vuex.Store({
         var errorMessage = error.message;
       });
     }
-    
   },
 });
