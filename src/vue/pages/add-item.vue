@@ -1,90 +1,72 @@
 <template>
-  <div class="add_movie_container">
+  <div class="add_card_container">
     <v-header></v-header>
-    <span>Заполните все поля для добавления нового фильма</span>
-    <form class="add_movie-form">
-      <div class="add_movie-form_info">
-        <div>
-          <p>
-            <span class="preview-poster"></span>
-            <label for="img">Постер </label>
 
-            <input
-              type="text"
-              name="img"
-              class="add_movie-form_img"
-              v-model="img"
-              @input="onUpdate"
-            />
-          </p>
-        </div>
-        <div>
-          <p>
-            <input
-              type="text"
-              name="title"
-              class="add_movie-form_title"
-              placeholder="Название"
-              v-model="title"
-              @input="onUpdate"
-            />
-          </p>
-          <p>
-            <input
-              type="text"
-              name="genre"
-              class="add_movie-form_genre"
-              placeholder="Жанр"
-              v-model="genre"
-              @input="onUpdate"
-            />
-          </p>
-          <p>
-            <label for="strTime">Время сеанса </label>
-            <input
-              type="time"
-              name="strTime"
-              class="add_movie-form_strTime"
-              v-model="stime"
-              @input="onUpdate"
-            />
-          </p>
-          <p>
-            <label for="drtn">Продолжительность </label>
-            <input
-              type="time"
-              name="drtn"
-              class="add_movie-form_drtn"
-              v-model="drtn"
-              @input="onUpdate"
-            />
-          </p>
-          <p>
-            <label for="release">Дата релиза </label>
-            <input
-              type="date"
-              name="release"
-              class="add_movie-form_release"
-              v-model="date"
-              @input="onUpdate"
-            />
-          </p>
-          <p>
-            <input
-              type="number"
-              name="tcktPrice"
-              class="add_movie-form_tcktPrice"
-              placeholder="Стоимость"
-              v-model="tcktPrice"
-              @input="onUpdate"
-            />
-          </p>
+    <form class="add_card-form">
+      <span class="form_title">Add product</span>
+      <div>
+        <span class="input_title">title</span>
+        <input
+          type="text"
+          name="title"
+          class="input-add_card"
+          placeholder="For example: Iron man suit"
+          v-model="title"
+          @input="onUpdate"
+        />
+      </div>
+      <div>
+        <span class="input_title">locstion</span>
+        <input
+          type="text"
+          name="location"
+          class="input-add_card"
+          placeholder="For example: Los Angeles, CA"
+          v-model="location"
+          @input="onUpdate"
+        />
+      </div>
+      <div>
+        <span class="input_title">description</span>
+        <textarea
+          type="text"
+          name="description"
+          class="add_card-form_description"
+          v-model="description"
+          @input="onUpdate"
+        />
+      </div>
+      <div>
+        <span class="input_title">photos</span>
+        <div class="add_card-form_images">
+          <input
+            class="addButton"
+            type="file"
+            id="files"
+            ref="files"
+            multiple
+            @change="handleFileUploads()"
+          />
+          <!-- <span class = "addButton" id="" @click="addImg()"><img src="img/plus-solid.svg" alt=""></span> -->
+          <div class="selected_img" v-for="src in imgSrc">
+            <img :src="src" alt="" />
+          </div>
         </div>
       </div>
 
-      <span class="add_movie-form_btn" @click="writeMovie()"
-        >Добавить фильм</span
-      >
+      <div>
+        <span class="input_title">price</span>
+        <input
+          type="number"
+          name="price"
+          class="input-add_card"
+          placeholder="Price"
+          v-model="price"
+          @input="onUpdate"
+        />
+      </div>
+
+      <span class="form-button" @click="addCard()">SUBMIT</span>
     </form>
   </div>
 </template>
@@ -93,26 +75,45 @@
 module.exports = {
   data: function () {
     return {
+      title: "",
+      location: "",
+      description: "",
+      img: [],
+      price: "",
+      imgSrc: [],
       payload: {},
     };
   },
   components: {
-    "v-header": require("../components/v-page-header.vue"),
+    "v-header": require("../components/v-page-header-add-card.vue"),
   },
   methods: {
-    writeMovie: function () {
+    addCard: function () {
       console.log(this.payload);
-      this.$store.dispatch("addMovie", this.payload);
+      this.$store.dispatch("addCadr", this.payload);
+    },
+
+    handleFileUploads: function (e) {
+      let uploadedFiles = this.$refs.files.files;
+      let reader = new FileReader();
+      for (var i = 0; i < uploadedFiles.length; i++) {
+        this.img.push(uploadedFiles[i]);
+      }
+      for (let j = 0; j < this.img.length; j++) {
+        console.log(this.img[j]);
+        reader.readAsDataURL(this.img[j]);
+        reader.onload = () => {
+          this.imgSrc.push(reader.result);
+        };
+      }
+      console.log(this.img);
+      console.log(this.imgSrc);
     },
 
     onUpdate: function () {
       this.payload = {
         src: this.img,
         title: this.title,
-        genre: this.genre.split(","),
-        strTime: this.stime,
-        drtn: this.drtn,
-        release: this.date,
         tcktPrice: this.tcktPrice,
       };
     },

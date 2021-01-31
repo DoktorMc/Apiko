@@ -7,8 +7,12 @@
           <input type="text" class="category_input" />
           <div class="category_list"></div>
         </div>
-        <input type="text" class="filters-price_from" />
-        <input type="text" class="filters-price_to" />
+        <input type="text" class="filters-price" />
+        <div class="filter_line"></div>
+        <input type="text" class="filters-price" />
+      </div>
+      <div class="items_container">
+        
       </div>
     </div>
   </div>
@@ -24,6 +28,9 @@ module.exports = {
   },
   methods: {},
   computed: {},
+  mounted () {
+    console.log(this.$store.state.isLogeedIn);
+  },
 };
 </script>
 

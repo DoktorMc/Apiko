@@ -1,6 +1,6 @@
 let Vue = require('vue');
 let firebase = require('firebase/firebase');
-
+require('./firebaseApp');
 let app;
 
 firebase.auth().onAuthStateChanged(user => {

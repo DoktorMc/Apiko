@@ -3,15 +3,7 @@ const Vuex = require("vuex");
 const AXIOS = require("axios");
 let firebase = require("firebase/firebase");
 let router  = require('./app.router');
-
-firebase.initializeApp({
-  apiKey: "AIzaSyDt0kfslviXFUVNtElpSCQ2H-ugqyk8pUA",
-  authDomain: "apico-app-1.firebaseapp.com",
-  projectId: "apico-app-1",
-  storageBucket: "apico-app-1.appspot.com",
-  messagingSenderId: "750049141342",
-  appId: "1:750049141342:web:cced084a2f3cf16e7acacf",
-});
+require('./firebaseApp');
 
 var db = firebase.firestore();
 var storage = firebase.storage();
@@ -51,7 +43,7 @@ module.exports = new Vuex.Store({
     },
 
     getTicketStatus: (state) => (payload) => {
-      return state.movies[payload.id - 1].hall[payload.r][payload.s].reserved;
+      return ;
     },
   },
 
@@ -77,13 +69,14 @@ module.exports = new Vuex.Store({
         });
     },
 
-    addMovie: function ({ commit }, data) {
-      db.collection("movies")
+    addCard: function ({ commit }, data) {
+      db.collection("cards")
         .add({
           id: 1,
           src: data.src,
           title: data.title,
           price: data.price,
+          like: false
         })
         .then(function (docRef) {
           console.log("Document written with ID: ", docRef.id);
