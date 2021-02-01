@@ -227,6 +227,11 @@
       margin: 0 7px;
     }
   }
+  .cards_container{
+    display: flex;
+    margin-top: 15px;
+
+  }
 }
 
 .v-reg-log-container {
@@ -330,6 +335,7 @@
       padding: 12px;
     }
     .add_card-form_images {
+      position: relative;
       display: flex;
       align-items: center;
       min-width: 664px;
@@ -354,7 +360,13 @@
           height: 40px;
         }
       }
-      .selected_img{
+
+      .imgAdder {
+        position: absolute;
+        top: -900px;
+      }
+      .selected_img {
+        position: relative;
         width: 92px;
         height: 92px;
         background: #e4e4e4;
@@ -362,9 +374,27 @@
         padding: 25px;
         box-sizing: border-box;
         margin: 0 16px;
-        img{
+        img {
           width: 40px;
           height: 40px;
+        }
+        .delete_button {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: inherit;
+          height: inherit;
+          opacity: 0;
+          box-sizing: border-box;
+          padding: 35px 15px;
+          background: #ff0800;
+          cursor: pointer;
+          transition: all 0.5s ease;
+        }
+        &:hover{
+          .delete_button {
+            opacity: 0.5;
+          }
         }
       }
     }

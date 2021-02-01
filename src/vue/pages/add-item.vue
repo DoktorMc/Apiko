@@ -40,16 +40,19 @@
         <span class="input_title">photos</span>
         <div class="add_card-form_images">
           <input
-            class="addButton"
+            class="imgAdder"
             type="file"
             id="files"
             ref="files"
             multiple
             @change="handleFileUploads()"
           />
-          <!-- <span class = "addButton" id="" @click="addImg()"><img src="img/plus-solid.svg" alt=""></span> -->
-          <div class="selected_img" v-for="src in imgSrc">
+          <span class="addButton" id="" @click="addImg()"
+            ><img src="img/plus-solid.svg" alt=""
+          /></span>
+          <div class="selected_img" v-for="(src, key) in imgSrc" :key="key">
             <img :src="src" alt="" />
+            <div class="delete_button" @click="delImg(key)">DELETE</div>
           </div>
         </div>
       </div>
@@ -90,31 +93,35 @@ module.exports = {
   methods: {
     addCard: function () {
       console.log(this.payload);
-      this.$store.dispatch("addCadr", this.payload);
+      this.$store.dispatch("addCard", this.payload);
+    },
+    addImg: function () {
+      this.$refs.files.click();
+    },
+    delImg: function (i) {
+      this.imgSrc.splice(i, 1);
     },
 
     handleFileUploads: function (e) {
       let uploadedFiles = this.$refs.files.files;
-      let reader = new FileReader();
+
       for (var i = 0; i < uploadedFiles.length; i++) {
         this.img.push(uploadedFiles[i]);
-      }
-      for (let j = 0; j < this.img.length; j++) {
-        console.log(this.img[j]);
-        reader.readAsDataURL(this.img[j]);
+        let reader = new FileReader();
+        reader.readAsDataURL(this.img[i]);
         reader.onload = () => {
           this.imgSrc.push(reader.result);
         };
       }
-      console.log(this.img);
-      console.log(this.imgSrc);
     },
 
     onUpdate: function () {
       this.payload = {
         src: this.img,
         title: this.title,
-        tcktPrice: this.tcktPrice,
+        loc: this.location,
+        desc: this.description,
+        price: this.price,
       };
     },
   },

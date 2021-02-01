@@ -11,8 +11,13 @@
         <div class="filter_line"></div>
         <input type="text" class="filters-price" />
       </div>
-      <div class="items_container">
-        
+      <div class="cards_container" v-for="(card, key) in cards" :key="key">
+        <div class="card_field-item">
+          <img :src="card.img" alt="" />
+          <span>{{ card.title }}</span>
+          <span>${{ card.price }}</span>
+          <div v-if="card.like"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -21,15 +26,23 @@
 <script>
 module.exports = {
   data: function () {
-    return {};
+    return {
+      cards: {},
+    };
   },
-   components: {
+  components: {
     "v-header": require("../components/v-page-header.vue"),
   },
   methods: {},
-  computed: {},
-  mounted () {
-    console.log(this.$store.state.isLogeedIn);
+  computed: {
+    allCards: function () {
+      return (this.cards = this.$store.getters["getCards"]);
+    },
+  },
+  mounted() {
+    this.$store.dispatch("fetchCards");
+    this.cards = this.$store.getters["getCards"];
+    console.log(this.cards);
   },
 };
 </script>
