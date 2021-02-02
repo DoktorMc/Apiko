@@ -19,51 +19,51 @@ module.exports = new Vuex.Store({
   },
 
   getters: {
-    getMovieById: (state) => (id) => {
-      return state.movies.find((movie) => movie.id == id);
-    },
+    getCardByName: (state) => (name) => {
+      console.log(name);
+      let query = name.toLowerCase();
+      console.log(query);
+      let buffer = state.cards;
+      
+      buffer = buffer.filter((card) => ~card.title.toLowerCase().indexOf(query));
 
-    getMovieByGenre: (state) => (gen) => {
-      let query = gen.toLowerCase();
-      let buffer = state.movies;
+      state.cards = buffer;
 
-      let currMovies = buffer.filter((movie) => {
-        for (let i = 0; i < movie.genre.length; i++) {
-          if (movie.genre[i].toLowerCase() == query) {
-            return movie.genre[i].toLowerCase() == query;
-          }
-        }
-      });
-      console.log(currMovies);
-      return currMovies;
+      return state.cards;
     },
 
     getCards: (state) => {
       return state.cards;
     },
-
   },
 
   mutations: {
-    cardsInStore(state, payload){
-      console.log(payload);
-      state.cards.push(payload) ;
+    cardsInStore(state, payload) {
+      state.cards = payload;
     },
 
     isLoggedIn(state, payload) {
       state.isLogeedIn = payload;
     },
+
+    isCurrentUser(state, payload) {
+      state.currentUser = payload;
+    },
+
+    isLoggedOut(state, payload) {
+      state.isLogeedIn = payload;
+    },
   },
 
   actions: {
-    fetchCards: function ({commit}) {
-      db.collection("cards")
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            commit('cardsInStore', doc.data());
-          });
+    fetchCards: function ({ commit }) {
+      let resultCards = [];
+      db.collection("cards").onSnapshot((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          resultCards.push(doc.data());
         });
+        commit("cardsInStore", resultCards);
+      });
     },
 
     addCard: async function ({ commit }, data) {
@@ -78,11 +78,12 @@ module.exports = new Vuex.Store({
             .child("cardImage/" + data.src[i].name)
             .put(data.src[i], metadata);
 
-          promises.push(uploadTask.then(snapshot => snapshot.ref.getDownloadURL()));
+          promises.push(
+            uploadTask.then((snapshot) => snapshot.ref.getDownloadURL())
+          );
         }
       }
       const URLs = await Promise.all(promises);
-      console.log(URLs);
       db.collection("cards")
         .add({
           id: 1,
@@ -95,6 +96,7 @@ module.exports = new Vuex.Store({
         })
         .then(function (docRef) {
           console.log("Document written with ID: ", docRef.id);
+          router.push("/");
         })
         .catch(function (error) {
           console.error("Error adding document: ", error);
@@ -130,12 +132,24 @@ module.exports = new Vuex.Store({
           var user = userCredential.user;
           console.log("User is " + user.uid + "User email " + user.email);
           commit("isLoggedIn", true);
+          commit("isCurrentUser", user.email);
           router.push("/");
           // ...
         })
         .catch((error) => {
           var errorCode = error.code;
           var errorMessage = error.message;
+        });
+    },
+
+    signOut: function ({ commit }) {
+      auth
+        .signOut()
+        .then(() => {
+          commit("isLoggedOut", false);
+        })
+        .catch((error) => {
+          // An error happened.
         });
     },
   },

@@ -7,9 +7,16 @@
         <router-link v-if="!checkStatus" to="/login" class="login"
           >Login</router-link
         >
-        <router-link v-if="checkStatus" to="" class="user_ico"
-          ><img src="img/user-circle-regular.svg" alt=""
-        /></router-link>
+        <div class="user_ico-wraper" v-if="checkStatus">
+          <div class="user_ico">{{ userIcon }}</div>
+          <div class="user_drop_menu">
+            <span class="user_drop_menu-name">{{ currentUser }}</span>
+            <span class="user_drop_menu-logout_button" @click="logOut()"
+              >LogOut</span
+            >
+          </div>
+        </div>
+
         <router-link to="" class="like_filter"
           ><img src="img/heart-regular.svg" alt=""
         /></router-link>
@@ -20,9 +27,11 @@
         <input
           class="search_by_name"
           type="text"
-          name="search_by_name"
-          id="search_by_name"
+          v-model="searchname"
+          name="searchname"
+          id="searchname"
           placeholder="Search products by name"
+          @input="onUpdate"
         />
         <input
           class="search_by_position"
@@ -31,7 +40,7 @@
           id="search_by_position"
           placeholder="Location"
         />
-        <span class="search_button">Search</span>
+        <span class="search_button" @click="searchByName()">Search</span>
       </div>
     </div>
   </div>
@@ -41,18 +50,36 @@
 module.exports = {
   data: function () {
     return {
-    
+      queryString: "",
     };
   },
-  props: {},
 
-  methods: {},
-  computed: {
-    checkStatus() {
-      return this.$store.state.isLogeedIn; 
-    }
+  methods: {
+    logOut: function () {
+      this.$store.dispatch("signOut");
+    },
+
+    onUpdate: function () {
+      this.queryString = this.searchname;
+    },
+    searchByName() {
+      this.$store.getters.getCardByName(this.queryString);
+    },
   },
-  
+  computed: {
+    userIcon() {
+      let userName = this.$store.state.currentUser;
+      return userName.substring(0, 2);
+    },
+
+    checkStatus() {
+      return this.$store.state.isLogeedIn;
+    },
+
+    currentUser() {
+      return this.$store.state.currentUser;
+    },
+  },
 };
 </script>
 
