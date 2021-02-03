@@ -19,13 +19,17 @@ module.exports = new Vuex.Store({
   },
 
   getters: {
-    getCardByName: (state) => (name) => {
-      console.log(name);
-      let query = name.toLowerCase();
-      console.log(query);
+    getCardByNameAndLoc: (state) => (payload) => {
+      console.log(payload);
+      let queryN = payload.title.toLowerCase();
+      let queryL = payload.location.toLowerCase();
+      console.log(queryN);
+      console.log(queryL);
       let buffer = state.cards;
       
-      buffer = buffer.filter((card) => ~card.title.toLowerCase().indexOf(query));
+      bufferN = buffer.filter((card) => ~card.title.toLowerCase().indexOf(queryN));
+
+      buffer = bufferN.filter((card) => ~card.location.toLowerCase().indexOf(queryL));
 
       state.cards = buffer;
 
