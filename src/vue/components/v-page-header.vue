@@ -36,9 +36,11 @@
         <input
           class="search_by_position"
           type="text"
+          v-model="searchlocation"
           name="search_by_position"
           id="search_by_position"
           placeholder="Location"
+          @input="onUpdate"
         />
         <span class="search_button" @click="searchByName()">Search</span>
       </div>
@@ -50,20 +52,39 @@
 module.exports = {
   data: function () {
     return {
-      queryString: "",
+      payload: {},
+      queryString: '',
+      queryLocation:''
     };
   },
 
   methods: {
     logOut: function () {
-      this.$store.dispatch("signOut");
+      this.$store.dispatch('signOut');
     },
 
     onUpdate: function () {
-      this.queryString = this.searchname;
+      if (this.searchname == undefined) {
+        this.queryStrin = '';
+      }else{
+        this.queryString = this.searchname;
+      }
+      if (this.searchlocation == undefined) {
+        this.queryLocation = '';
+      }else{
+        this.queryLocation = this.searchlocation;
+      }
+      
+      this.payload = {
+        title: this.queryString,
+        location: this.queryLocation
+      }
+      
+      // this.queryString = this.searchname;
+      // this.queryLocation = this.searchlocation;
     },
     searchByName() {
-      this.$store.getters.getCardByName(this.queryString);
+      this.$store.getters.getCardByNameAndLoc(this.payload);
     },
   },
   computed: {
