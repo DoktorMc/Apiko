@@ -90,21 +90,22 @@ module.exports = new Vuex.Store({
       const URLs = await Promise.all(promises);
       db.collection("cards")
         .add({
-          id: 1,
           img: URLs,
           title: data.title,
           location: data.loc,
           price: data.price,
           description: data.desc,
-          like: false,
+          like: {},
         })
         .then(function (docRef) {
           console.log("Document written with ID: ", docRef.id);
+          var cityRef = db.collection("cards").doc(docRef.id);
+          cityRef.set({id: docRef.id},{ merge: true });
           router.push("/");
         })
         .catch(function (error) {
           console.error("Error adding document: ", error);
-        });
+        })
     },
 
     addUser: function ({ commit }, data) {

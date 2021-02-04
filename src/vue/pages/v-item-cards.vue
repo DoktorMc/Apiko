@@ -32,7 +32,7 @@
           <img class="card_item-img" :src="card.img" alt="" />
           <span class="card_item-title">{{ card.title }}</span>
           <span class="card_item-price">$ {{ card.price }}</span>
-          <div class="card_item-like">
+          <div class="card_item-like" >
             <svg width="25" height="25" preserveAspectRatio="xMidYMid meet">
               <use xlink:href="img/heart-like.svg#svg-heart"></use>
             </svg>
