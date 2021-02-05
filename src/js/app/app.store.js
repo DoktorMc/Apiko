@@ -26,10 +26,14 @@ module.exports = new Vuex.Store({
       console.log(queryN);
       console.log(queryL);
       let buffer = state.cards;
-      
-      bufferN = buffer.filter((card) => ~card.title.toLowerCase().indexOf(queryN));
 
-      buffer = bufferN.filter((card) => ~card.location.toLowerCase().indexOf(queryL));
+      bufferN = buffer.filter(
+        (card) => ~card.title.toLowerCase().indexOf(queryN)
+      );
+
+      buffer = bufferN.filter(
+        (card) => ~card.location.toLowerCase().indexOf(queryL)
+      );
 
       state.cards = buffer;
 
@@ -95,17 +99,34 @@ module.exports = new Vuex.Store({
           location: data.loc,
           price: data.price,
           description: data.desc,
-          like: {},
+          like: [],
         })
         .then(function (docRef) {
           console.log("Document written with ID: ", docRef.id);
           var cityRef = db.collection("cards").doc(docRef.id);
-          cityRef.set({id: docRef.id},{ merge: true });
+          cityRef.set({ id: docRef.id }, { merge: true });
           router.push("/");
         })
         .catch(function (error) {
           console.error("Error adding document: ", error);
+        });
+    },
+
+    likeCard: function ({ commit }, id) {
+      console.log("id: " + id);
+      nLike = 0;
+
+      db.collection("cards")
+        .doc(id)
+        .update({
+          like: firebase.firestore.FieldValue.arrayUnion({
+            user: this.state.currentUser,
+            liked: true,
+          }),
         })
+        .then(() => {
+          console.log("Document successfully updated!");
+        });
     },
 
     addUser: function ({ commit }, data) {

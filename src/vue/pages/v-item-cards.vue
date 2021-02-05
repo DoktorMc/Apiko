@@ -32,7 +32,7 @@
           <img class="card_item-img" :src="card.img" alt="" />
           <span class="card_item-title">{{ card.title }}</span>
           <span class="card_item-price">$ {{ card.price }}</span>
-          <div class="card_item-like" >
+          <div class="card_item-like" @click="liker(card.id)">
             <svg width="25" height="25" preserveAspectRatio="xMidYMid meet">
               <use xlink:href="img/heart-like.svg#svg-heart"></use>
             </svg>
@@ -60,11 +60,15 @@ module.exports = {
       this.prcFrom = this.pFrom;
       this.prcTo = this.pTo;
     },
+
+    liker: function (id) {
+      this.$store.dispatch("likeCard", id);
+    }
   },
   computed: {
-    allCards: function () {
-      return (this.cards = this.$store.getters["getCards"]);
-    },
+    // allCards: function () {
+    //   return (this.cards = this.$store.getters["getCards"]);
+    // },
 
     filterByPrice: function () {
       let priceFrom = this.prcFrom;
@@ -77,19 +81,24 @@ module.exports = {
         }
       console.log('from  - '+priceFrom);
       console.log('to - '+priceTo);
-      let buffer = this.$store.getters["getCards"];
+      // let buffer = this.$store.getters["getCards"];
+      let buffer = this.cards;
       console.log(buffer);
       buffer = buffer.filter(
         (card) => priceFrom <= +card.price && +card.price <= priceTo
       );
       return buffer;
+
     },
   },
   created() {
-    console.log("created " + this.cards);
+     console.log("created " + this.cards);
     this.$store.dispatch("fetchCards");
   },
-  mounted() {},
+  mounted() { 
+  this.cards = this.$store.getters["getCards"];
+    },
+    
 };
 </script>
 
