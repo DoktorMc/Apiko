@@ -28,11 +28,16 @@
         />
       </div>
       <div class="cards_container">
-        <div class="card_item" v-for="(card, key) in filterByPrice" :key="key">
+        <div class="card_item" v-for="(card, key) in filterByPrice" :key="key" >
           <img class="card_item-img" :src="card.img" alt="" />
           <span class="card_item-title">{{ card.title }}</span>
           <span class="card_item-price">$ {{ card.price }}</span>
-          <div class="card_item-like" @click="liker(card.id)">
+          <div
+            class="card_item-like"
+            @click="liker(card.id)"
+           
+            :class="{ isLiked:  liked}"
+          >
             <svg width="25" height="25" preserveAspectRatio="xMidYMid meet">
               <use xlink:href="img/heart-like.svg#svg-heart"></use>
             </svg>
@@ -44,12 +49,13 @@
 </template>
 
 <script>
+let mapGetters = require('../../js/app/app.store');
 module.exports = {
   data: function () {
     return {
       prcFrom: null,
       prcTo: null,
-      cards: [],
+      isL: false,
     };
   },
   components: {
@@ -63,42 +69,42 @@ module.exports = {
 
     liker: function (id) {
       this.$store.dispatch("likeCard", id);
-    }
+    },
   },
   computed: {
-    // allCards: function () {
-    //   return (this.cards = this.$store.getters["getCards"]);
-    // },
+     ...mapGetters([
+      'getLike'
+      // ...
+    ]),
+    allCards: function () {
+      return this.$store.getters["getCards"];
+    },
+
+    liked: function (id) {
+      console.log(this.getLike(id));
+      return this.getLike(id);
+    },
 
     filterByPrice: function () {
-      let priceFrom = this.prcFrom;
-      let priceTo = this.prcTo;
-      if (priceFrom == null || priceFrom === '') {
-        priceFrom = 0;
-        
-      }if (priceTo == null || priceTo === '') {
-          priceTo = Infinity;
-        }
-      console.log('from  - '+priceFrom);
-      console.log('to - '+priceTo);
-      // let buffer = this.$store.getters["getCards"];
-      let buffer = this.cards;
+      let priceFrom = this.prcFrom || 0;
+      let priceTo = this.prcTo || Infinity;
+
+      let buffer = this.allCards;
+
       console.log(buffer);
       buffer = buffer.filter(
         (card) => priceFrom <= +card.price && +card.price <= priceTo
       );
       return buffer;
-
     },
   },
   created() {
-     console.log("created " + this.cards);
+    console.log("created ");
     this.$store.dispatch("fetchCards");
   },
-  mounted() { 
-  this.cards = this.$store.getters["getCards"];
-    },
-    
+  mounted() {
+    console.log("mounted ");
+  },
 };
 </script>
 

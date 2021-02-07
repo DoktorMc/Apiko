@@ -41,7 +41,22 @@ module.exports = new Vuex.Store({
     },
 
     getCards: (state) => {
+      console.log(state.cards);
       return state.cards;
+    },
+
+    getLike:(state) => (id) => {
+      for (let i = 0; i < state.cards.length; i++) {
+        // if (state.cards[i].id == id) {
+          console.log(state.cards[i].id);
+          for (let j = 0; j < state.cards[i].like.length; j++) {
+            if (state.cards[i].like[j].user == state.currentUser) {
+            
+              return state.cards[i].like[j].liked;
+            }
+          }
+        // }
+      }
     },
   },
 
@@ -66,12 +81,15 @@ module.exports = new Vuex.Store({
   actions: {
     fetchCards: function ({ commit }) {
       let resultCards = [];
-      db.collection("cards").onSnapshot((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          resultCards.push(doc.data());
+      db.collection("cards")
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            resultCards.push(doc.data());
+            console.log(resultCards);
+          });
+          commit("cardsInStore", resultCards);
         });
-        commit("cardsInStore", resultCards);
-      });
     },
 
     addCard: async function ({ commit }, data) {
