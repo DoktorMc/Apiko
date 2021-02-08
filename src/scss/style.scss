@@ -104,14 +104,14 @@
           font-size: 16px;
           text-align: center;
           padding-top: 7px;
-          box-sizing: border-box; 
-          border-radius: 20px; 
+          box-sizing: border-box;
+          border-radius: 20px;
         }
         &:hover {
           .user_drop_menu {
             opacity: 1;
             visibility: visible;
-            transform: none; 
+            transform: none;
             // box-shadow: 0px 1px 20px #349a89be;
           }
         }
@@ -153,9 +153,39 @@
         }
       }
 
-      .like_filter {
-        img {
-          height: 20px;
+      .like_container {
+        position: relative;
+        width: 35px;
+        height: 35px;
+
+        .like_filter {
+          position: absolute;
+          display: inline-block;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          border-radius: 15px;
+          padding: 4px 3.4px;
+          box-sizing: border-box;
+          transition: 0.5s;
+          // fill: #ffffff;
+          stroke: #ffffff;
+          stroke-width: 10;
+          cursor: pointer;
+          &:hover {
+            fill: #349a89;
+            stroke: #349a89;
+            stroke-width: 5;
+          }
+        }
+        .like_input {
+          display: none; 
+          &:checked + .like_filter {
+            fill: #349a89;
+            stroke: #349a89;
+            stroke-width: 5;
+          }
         }
       }
     }
@@ -352,7 +382,7 @@
           stroke: #349a89;
           stroke-width: 5;
         }
-        &.isLiked{
+        &.isLiked {
           fill: #349a89;
           stroke: #349a89;
           stroke-width: 5;

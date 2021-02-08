@@ -36,7 +36,7 @@
             class="card_item-like"
             @click="liker(card.id)"
            
-            :class="{ isLiked:  liked}"
+            :class="{ isLiked:  false}"
           >
             <svg width="25" height="25" preserveAspectRatio="xMidYMid meet">
               <use xlink:href="img/heart-like.svg#svg-heart"></use>
@@ -49,7 +49,7 @@
 </template>
 
 <script>
-let mapGetters = require('../../js/app/app.store');
+
 module.exports = {
   data: function () {
     return {
@@ -72,10 +72,6 @@ module.exports = {
     },
   },
   computed: {
-     ...mapGetters([
-      'getLike'
-      // ...
-    ]),
     allCards: function () {
       return this.$store.getters["getCards"];
     },

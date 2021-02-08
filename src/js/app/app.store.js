@@ -20,11 +20,9 @@ module.exports = new Vuex.Store({
 
   getters: {
     getCardByNameAndLoc: (state) => (payload) => {
-      console.log(payload);
       let queryN = payload.title.toLowerCase();
       let queryL = payload.location.toLowerCase();
-      console.log(queryN);
-      console.log(queryL);
+
       let buffer = state.cards;
 
       bufferN = buffer.filter(
@@ -41,20 +39,34 @@ module.exports = new Vuex.Store({
     },
 
     getCards: (state) => {
+      return state.cards;
+    },
+
+    getLikedCard: (state) => {
+      let buffer = state.cards;
+      console.log(" LIKEcARDFILTER");
+      console.log(buffer);
+      buffer = buffer.filter((card) => {
+        card.like = card.like.filter((like) => {
+          return like.user == state.currentUser && like.liked == true;
+        });
+        return card.like.length;
+      });
+      state.cards = buffer;
+      console.log(" LIKEcARDFILTERED");
       console.log(state.cards);
       return state.cards;
     },
 
-    getLike:(state) => (id) => {
+    getLike: (state) => (id) => {
       for (let i = 0; i < state.cards.length; i++) {
         // if (state.cards[i].id == id) {
-          console.log(state.cards[i].id);
-          for (let j = 0; j < state.cards[i].like.length; j++) {
-            if (state.cards[i].like[j].user == state.currentUser) {
-            
-              return state.cards[i].like[j].liked;
-            }
+        console.log(state.cards[i].id);
+        for (let j = 0; j < state.cards[i].like.length; j++) {
+          if (state.cards[i].like[j].user == state.currentUser) {
+            return state.cards[i].like[j].liked;
           }
+        }
         // }
       }
     },
@@ -86,7 +98,6 @@ module.exports = new Vuex.Store({
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
             resultCards.push(doc.data());
-            console.log(resultCards);
           });
           commit("cardsInStore", resultCards);
         });
@@ -174,7 +185,7 @@ module.exports = new Vuex.Store({
         .then((userCredential) => {
           // Signed in
           var user = userCredential.user;
-          console.log("User is " + user.uid + "User email " + user.email);
+          console.log("User is " + user.uid + "    User email " + user.email);
           commit("isLoggedIn", true);
           commit("isCurrentUser", user.email);
           router.push("/");

@@ -9,9 +9,6 @@
         <router-link v-if="checkStatus" to="" class="user_ico"
           ><img src="img/user-circle-regular.svg" alt=""
         /></router-link>
-        <router-link to="" class="like_filter"
-          ><img src="img/heart-regular.svg" alt=""
-        /></router-link>
       </div>
     </div>
   </div>

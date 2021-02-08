@@ -17,9 +17,19 @@
           </div>
         </div>
 
-        <router-link to="" class="like_filter"
-          ><img src="img/heart-regular.svg" alt=""
-        /></router-link>
+        <label class="like_container"
+          ><input
+            v-if="checkStatus"
+            type="checkbox"
+            class="like_input"
+            v-model="like_input"
+            @change="likeFilter"
+            name="like_input"
+            id="" />
+          <span v-if="checkStatus" class="like_filter">
+            <svg width="30" height="30" preserveAspectRatio="xMidYMid meet">
+              <use xlink:href="img/heart-like.svg#svg-heart"></use></svg></span
+        ></label>
       </div>
     </div>
     <div class="container">
@@ -53,38 +63,38 @@ module.exports = {
   data: function () {
     return {
       payload: {},
-      queryString: '',
-      queryLocation:''
+      queryString: "",
+      queryLocation: "",
     };
   },
 
   methods: {
     logOut: function () {
-      this.$store.dispatch('signOut');
+      this.$store.dispatch("signOut");
     },
 
     onUpdate: function () {
-      if (this.searchname == undefined) {
-        this.queryStrin = '';
-      }else{
-        this.queryString = this.searchname;
+      this.queryString = this.searchname || "";
+      this.queryLocation = this.searchlocation || "";
+
+      if (this.queryString == "" && this.queryLocation == "") {
+        return this.$store.dispatch("fetchCards");
+      } else {
+        this.payload = {
+          title: this.queryString,
+          location: this.queryLocation,
+        };
       }
-      if (this.searchlocation == undefined) {
-        this.queryLocation = '';
-      }else{
-        this.queryLocation = this.searchlocation;
-      }
-      
-      this.payload = {
-        title: this.queryString,
-        location: this.queryLocation
-      }
-      
-      // this.queryString = this.searchname;
-      // this.queryLocation = this.searchlocation;
     },
+
     searchByName() {
       this.$store.getters.getCardByNameAndLoc(this.payload);
+    },
+
+    likeFilter: function () {
+      this.like_input
+        ? this.$store.getters.getLikedCard
+        : this.$store.dispatch("fetchCards");
     },
   },
   computed: {
