@@ -58,20 +58,29 @@
   left: 0%;
   right: 0%;
   top: 0%;
-  // height: 166px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   background: linear-gradient(180deg, #090810 0%, #171236 100%);
+  overflow: hidden;
+  @include desktop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
   .v-page-header_top-parts {
     display: flex;
     justify-content: space-between;
-    width: 1088px;
-    margin-top: 20px;
-    margin-bottom: 15px;
+    margin: 20px;
+    @include desktop {
+      display: flex;
+      justify-content: space-between;
+      width: 1088px;
+      margin-top: 20px;
+      margin-bottom: 15px;
+    }
+
     .v-page-header_logo {
       background-image: url(/img/Logofull.png);
+
       width: 102px;
       height: 42px;
     }
@@ -180,7 +189,7 @@
           }
         }
         .like_input {
-          display: none; 
+          display: none;
           &:checked + .like_filter {
             fill: #349a89;
             stroke: #349a89;
@@ -192,42 +201,63 @@
   }
   .v-page-header_bottom-parts {
     display: flex;
-    margin-top: 20px;
+    flex-direction: column;
+    align-items: center;
     margin-bottom: 10px;
+    @include desktop { 
+      flex-direction: row;
+      margin-top: 15px;
+    }
+
     // display: none;
     .search_by_name {
-      width: 467px;
-      height: 50px;
       border-radius: 4px;
-      margin-right: 7px;
+      width: 100%;
+      height: 40px;
       background-image: url(../img/search-solid.svg);
       background-repeat: no-repeat;
       background-position: 20px;
       background-size: auto 30%;
       outline: none;
       padding-left: 50px;
+      box-sizing: border-box;
+      margin-bottom: 5px;
       font-size: 15px;
+      @include desktop {
+        width: 467px;
+        height: 50px;
+        margin-right: 7px;
+        margin-bottom: 0;
+      }
     }
     .search_by_position {
-      width: 198px;
-      height: 50px;
+      width: 100%;
+      height: 40px;
       border-radius: 4px;
-      margin-right: 7px;
       background-image: url(../img/map-marker-alt-solid.svg);
       background-repeat: no-repeat;
       background-position: 20px;
       background-size: auto 30%;
+      box-sizing: border-box;
       outline: none;
       padding-left: 50px;
+      margin-bottom: 10px;
       font-size: 15px;
+
+      @include desktop {
+        width: 198px;
+        height: 50px;
+        margin-right: 7px;
+        margin-bottom: 0;
+      }
     }
     .search_button {
       display: inline-block;
-      padding: 15px 59px;
+      padding: 16px 59px; 
       border-radius: 4px;
       background: #3e3961;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 15px;
       text-transform: uppercase;
       color: #ffffff;
     }
@@ -280,72 +310,100 @@
   height: 100%;
   background: #f8f8f8;
   .item_cards-filters {
-    display: flex;
-    align-items: center;
     background: #ffffff;
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.217111);
     padding: 12px;
-
     border-radius: 4px;
     margin-top: 19px;
+    @include desktop {
+      display: flex;
+      align-items: center;
+    }
+
     input {
       background: #f9fafb;
       border: 1px solid #dedee0;
       box-sizing: border-box;
       border-radius: 5px;
     }
-    .category_input {
-      width: 285px;
-      height: 35px;
-      margin-right: 23px;
-      background-image: url(../img/th-large-solid.svg);
-      background-repeat: no-repeat;
-      background-position: 10px;
-      background-size: auto 50%;
-      outline: none;
-      padding-left: 40px;
-      font-size: 14px;
+
+    .filters-category_drop_list {
+      .category_input {
+        width: 100%;
+        height: 35px;
+        background-image: url(../img/th-large-solid.svg);
+        background-repeat: no-repeat;
+        background-position: 10px;
+        background-size: auto 50%;
+        outline: none;
+        padding-left: 40px;
+        font-size: 14px;
+        @include desktop {
+          width: 285px;
+          height: 35px;
+          margin-right: 23px;
+        }
+      }
     }
-    .filters-price {
-      width: 143px;
-      height: 35px;
-      padding: 8px;
-      font-size: 14px;
-      color: #505050;
-    }
-    .filter_line {
-      width: 12px;
-      height: 1px;
-      border: 1px solid #dedee0;
-      margin: 0 7px;
+
+    .filter_by_price_wraper {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+      .filters-price {
+        width: 143px;
+        height: 35px;
+        padding: 8px;
+        font-size: 14px;
+        color: #505050;
+      }
+      .filter_line {
+        width: 12px;
+        height: 1px;
+        border: 1px solid #dedee0;
+        margin: 0 7px;
+      }
     }
   }
   .cards_container {
     display: flex;
     flex-wrap: wrap;
     margin-top: 15px;
+    @include desktop {
+    }
+
     .card_item {
       position: relative;
       display: flex;
       flex-direction: column;
-
-      max-width: 212px;
-      max-height: 209px;
+      max-width: 165px; 
+      max-height: 160px;
+      padding: 3px;
+      margin-right: 8px;
       background: #ffffff;
       border: 1px solid #e4e4e4;
       box-sizing: border-box;
       box-shadow: 0px 4px 14px rgba(121, 121, 121, 0.0527344);
       border-radius: 4px;
-      padding: 3px;
-      margin-bottom: 10px;
-      margin-right: 5px;
-      &:nth-child(4n) {
+      @include desktop {
+        max-width: 212px;
+        max-height: 209px;
+        margin-bottom: 10px;
+        &:nth-child(4n) {
+          margin-right: 0;
+        }
+      }
+      &:nth-child(2n) {
         margin-right: 0;
       }
       .card_item-img {
-        width: 202px;
-        height: 148px;
+        width: 155px;
+        height: 100px;
         border-radius: 4px 4px 0px 0px;
+        @include desktop {
+          width: 202px;
+          height: 148px;
+        }
       }
       .card_item-title {
         font-size: 15px;
@@ -361,8 +419,8 @@
       .card_item-like {
         position: absolute;
         display: inline-block;
-        top: 135px;
-        left: 165px;
+        top: 88px; 
+        left: 120px;
         width: 30px;
         height: 30px;
         background: #ffffff;
@@ -377,6 +435,13 @@
         cursor: pointer;
 
         vertical-align: middle;
+
+        @include desktop { 
+          top: 135px;
+          left: 165px;
+          width: 30px;
+          height: 30px;
+        }
         &:hover {
           fill: #349a89;
           stroke: #349a89;
@@ -560,12 +625,7 @@
   }
 }
 // Sections
-.container {
-  position: relative;
-  max-width: 855px;
-  margin-right: auto;
-  margin-left: auto;
-}
+
 .content_data {
   position: relative;
   height: 100vh;

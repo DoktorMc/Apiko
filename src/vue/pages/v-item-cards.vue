@@ -11,32 +11,33 @@
           />
           <div class="category_list"></div>
         </div>
-        <input
-          type="number"
-          v-model="pFrom"
-          class="filters-price"
-          placeholder="Price from (USD)"
-          @input="onUpdate"
-        />
-        <div class="filter_line"></div>
-        <input
-          type="number"
-          v-model="pTo"
-          class="filters-price"
-          placeholder="Price to (USD)"
-          @input="onUpdate"
-        />
+        <div class="filter_by_price_wraper">
+          <input
+            type="number"
+            v-model="pFrom"
+            class="filters-price"
+            placeholder="Price from (USD)"
+            @input="onUpdate"
+          />
+          <div class="filter_line"></div>
+          <input
+            type="number"
+            v-model="pTo"
+            class="filters-price"
+            placeholder="Price to (USD)"
+            @input="onUpdate"
+          />
+        </div>
       </div>
       <div class="cards_container">
-        <div class="card_item" v-for="(card, key) in filterByPrice" :key="key" >
+        <div class="card_item" v-for="(card, key) in filterByPrice" :key="key">
           <img class="card_item-img" :src="card.img" alt="" />
           <span class="card_item-title">{{ card.title }}</span>
           <span class="card_item-price">$ {{ card.price }}</span>
           <div
             class="card_item-like"
             @click="liker(card.id)"
-           
-            :class="{ isLiked:  false}"
+            :class="{ isLiked: false }"
           >
             <svg width="25" height="25" preserveAspectRatio="xMidYMid meet">
               <use xlink:href="img/heart-like.svg#svg-heart"></use>
@@ -49,7 +50,6 @@
 </template>
 
 <script>
-
 module.exports = {
   data: function () {
     return {
