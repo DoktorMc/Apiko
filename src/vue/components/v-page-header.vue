@@ -2,7 +2,12 @@
   <div class="v-page-header_container">
     <div class="v-page-header_top-parts">
       <router-link to="/" class="v-page-header_logo"></router-link>
-      <div class="right_part">
+      <div class="section_menu-btn" @click="showMenu" >
+        <span class="menu-btn" :class="{active: isShow}">
+          <span></span>
+        </span>
+      </div>
+      <div class="right_part" :class="{show: isShow}">
         <router-link v-if="checkStatus" to="/add" class="add">+add</router-link>
         <router-link v-if="!checkStatus" to="/login" class="login"
           >Login</router-link
@@ -65,6 +70,7 @@ module.exports = {
       payload: {},
       queryString: "",
       queryLocation: "",
+      isShow: false,
     };
   },
 
@@ -87,7 +93,7 @@ module.exports = {
       }
     },
 
-    searchByName() {
+    searchByName: function () {
       this.$store.getters.getCardByNameAndLoc(this.payload);
     },
 
@@ -96,6 +102,10 @@ module.exports = {
         ? this.$store.getters.getLikedCard
         : this.$store.dispatch("fetchCards");
     },
+
+    showMenu:function () {
+      this.isShow = !this.isShow;
+    }
   },
   computed: {
     userIcon() {
