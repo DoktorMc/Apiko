@@ -9,8 +9,10 @@
   "author": "Vito",
   "license": "ISC",
   "devDependencies": {
-    "browser-sync": "^2.26.12",
+    "axios": "^0.21.1",
+    "browser-sync": "^2.26.14",
     "browserify": "*",
+    "firebase": "8.0.1",
     "gulp": "*",
     "gulp-autoprefixer": "*",
     "gulp-clean-css": "*",
@@ -19,9 +21,7 @@
     "vue": "*",
     "vue-router": "*",
     "vueify": "*",
-    "axios": "*",
-    "vuex": "*",
-    "firebase": "8.0.1"
+    "vuex": "*"
   },
   "dependencies": {
     "firebaseui": "^4.7.1"

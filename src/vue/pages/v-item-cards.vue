@@ -4,12 +4,20 @@
     <div class="container">
       <div class="item_cards-filters">
         <div class="filters-category_drop_list">
-          <input
-            type="text"
-            class="category_input"
-            placeholder="Choose Category"
-          />
-          <div class="category_list"></div>
+         
+            <input
+              type="text"
+              class="category_input"
+              placeholder="Choose Category"
+              @focus="focused = true" @blur="focused = false"
+            />
+            <div class="category_list" :class="{active: focused}">
+              <ul class="list-items">
+                <li class="item">cheap first</li>
+                <li class="item">expensive first</li>
+              </ul>
+            </div>
+          
         </div>
         <div class="filter_by_price_wraper">
           <input
@@ -56,6 +64,7 @@ module.exports = {
       prcFrom: null,
       prcTo: null,
       isL: false,
+      focused: false,
     };
   },
   components: {
@@ -70,6 +79,10 @@ module.exports = {
     liker: function (id) {
       this.$store.dispatch("likeCard", id);
     },
+
+    // active: function(){
+    //   this.isDrop = !this.isDrop;
+    // }
   },
   computed: {
     allCards: function () {
