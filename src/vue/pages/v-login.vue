@@ -20,7 +20,7 @@
           <div class="login_form-password">
             <span class="input_title">Password</span>
             <input
-              type="text"
+              type="password"
               name="pass"
               v-model="pass"
               id="pass"

@@ -32,7 +32,7 @@
           <div class="registration_form-password">
             <span class="input_title">Password</span>
             <input
-              type="text"
+              type="password"
               v-model="pass"
               name="pass"
               id="passw"
@@ -43,7 +43,7 @@
           <div class="registration_form-password">
             <span class="input_title">Password Again</span>
             <input
-              type="text"
+              type="password"
               v-model="passAgain"
               name="passAgain"
               id="passwA"

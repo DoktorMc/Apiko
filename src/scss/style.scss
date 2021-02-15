@@ -513,6 +513,7 @@
         .list-items {
           padding: 5px 0;
           .item {
+            cursor: pointer;
             padding: 5px 15px;
             &:hover {
               background: #dddddd;
@@ -754,6 +755,10 @@
 .add_card_container {
   background: #f2f2f2;
   height: 880px;
+  @include desktop {
+    height: auto;
+  }
+
 
   .add_card-form {
     display: flex;

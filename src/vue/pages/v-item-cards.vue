@@ -4,20 +4,19 @@
     <div class="container">
       <div class="item_cards-filters">
         <div class="filters-category_drop_list">
-         
-            <input
-              type="text"
-              class="category_input"
-              placeholder="Choose Category"
-              @focus="focused = true" @blur="focused = false"
-            />
-            <div class="category_list" :class="{active: focused}">
-              <ul class="list-items">
-                <li class="item">cheap first</li>
-                <li class="item">expensive first</li>
-              </ul>
-            </div>
-          
+          <input
+            type="text"
+            class="category_input"
+            placeholder="Choose Category"
+            @focus="focused = true"
+            @blur="focused = false"
+          />
+          <div class="category_list" :class="{ active: focused }">
+            <ul class="list-items">
+              <li class="item" @click="sortByLow()">cheap first</li>
+              <li class="item" @click="sortByHight()">expensive first</li>
+            </ul>
+          </div>
         </div>
         <div class="filter_by_price_wraper">
           <input
@@ -65,6 +64,8 @@ module.exports = {
       prcTo: null,
       isL: false,
       focused: false,
+      toLow: false,
+      toHight: false,
     };
   },
   components: {
@@ -78,6 +79,15 @@ module.exports = {
 
     liker: function (id) {
       this.$store.dispatch("likeCard", id);
+    },
+
+    sortByLow: function () {
+      this.toLow = !this.toLow;
+      this.toHight = false;
+    },
+    sortByHight: function () {
+      this.toHight = !this.toHight;
+      this.toLow = false;
     },
 
     // active: function(){
@@ -100,10 +110,23 @@ module.exports = {
 
       let buffer = this.allCards;
 
-      console.log(buffer);
       buffer = buffer.filter(
         (card) => priceFrom <= +card.price && +card.price <= priceTo
       );
+      if (this.toLow) {
+        
+        console.log(this.toLow);
+        buffer = buffer.sort((a, b) => {
+          return a.price - b.price;
+        });
+      }
+      if (this.toHight) {
+       
+        console.log(this.toHight);
+        buffer = buffer.sort((a, b) => {
+          return b.price - a.price;
+        });
+      }
       return buffer;
     },
   },
