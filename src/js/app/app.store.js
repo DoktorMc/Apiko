@@ -137,16 +137,24 @@ module.exports = new Vuex.Store({
           router.push("/");
         })
         .catch(function (error) {
-          console.error("Error adding document: ", error);
+          console.error("Error adding document: ", error.message);
+
+          var errorMessage = error.message;
+          alert(`ERROR!!! ${errorMessage}`);
         });
     },
 
     likeCard: function ({ commit }, id) {
       console.log("id: " + id);
-      nLike = 0;
+      let likeArray = [];
+      var likeRef = db.collection("cards").doc(id);
+      likeRef.get().then((doc) => {
+        likeArray = doc.data().like;
+        
+      });
+      
 
-      db.collection("cards")
-        .doc(id)
+      likeRef
         .update({
           like: firebase.firestore.FieldValue.arrayUnion({
             user: this.state.currentUser,
@@ -194,6 +202,7 @@ module.exports = new Vuex.Store({
         .catch((error) => {
           var errorCode = error.code;
           var errorMessage = error.message;
+          alert(`ERROR!!! ${errorMessage}`);
         });
     },
 
@@ -205,6 +214,8 @@ module.exports = new Vuex.Store({
         })
         .catch((error) => {
           // An error happened.
+          var errorMessage = error.message;
+          alert(`ERROR!!! ${errorMessage}`);
         });
     },
   },
