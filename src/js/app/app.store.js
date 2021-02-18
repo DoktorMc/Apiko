@@ -16,6 +16,7 @@ module.exports = new Vuex.Store({
     isLogeedIn: false,
     currentUser: false,
     cards: [],
+    liked: false,
   },
 
   getters: {
@@ -88,6 +89,10 @@ module.exports = new Vuex.Store({
     isLoggedOut(state, payload) {
       state.isLogeedIn = payload;
     },
+
+    isLiked(state, payload) {
+      state.liked = payload;
+    },
   },
 
   actions: {
@@ -146,24 +151,35 @@ module.exports = new Vuex.Store({
 
     likeCard: function ({ commit }, id) {
       console.log("id: " + id);
-      let likeArray = [];
+
       var likeRef = db.collection("cards").doc(id);
       likeRef.get().then((doc) => {
-        likeArray = doc.data().like;
-        
+        let likeArray = doc.data().like;
+        let likeTrtue = likeArray.some(
+          (elem) => elem.user == this.state.currentUser
+        );
+        // commit("isLiked", likeTrtue);
+        if (likeTrtue == true) {
+          console.log("already liked");
+          console.log(likeArray);
+          let likeIndex = likeArray.findIndex(like => like.user = this.state.currentUser);
+          console.log( 'Item index for delete - ' + likeIndex);
+          likeRef.update({ regions: firebase.firestore.FieldValue.arrayRemove(...likeIndex)});
+          // likeRef.update({like : {likeIndex : firebase.firestore.FieldValue.delete()}});
+        } else {
+          console.log("not liked");
+          likeRef
+            .update({
+              like: firebase.firestore.FieldValue.arrayUnion({
+                user: this.state.currentUser,
+                liked: true,
+              }),
+            })
+            .then(() => {
+              console.log("Document successfully updated!");
+            });
+        }
       });
-      
-
-      likeRef
-        .update({
-          like: firebase.firestore.FieldValue.arrayUnion({
-            user: this.state.currentUser,
-            liked: true,
-          }),
-        })
-        .then(() => {
-          console.log("Document successfully updated!");
-        });
     },
 
     addUser: function ({ commit }, data) {
