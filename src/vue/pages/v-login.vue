@@ -15,6 +15,7 @@
               class="email_input all_reg_log_input"
               placeholder="Example@gmail.com"
               @input="onUpdate"
+              @keyup.enter="loginIn()"
             />
           </div>
           <div class="login_form-password">
@@ -26,9 +27,10 @@
               id="pass"
               class="password_input all_reg_log_input"
               @input="onUpdate"
+              @keyup.enter="loginIn()"
             />
           </div>
-          <span class="form-button" @click="loginIn()">Continue</span>
+          <span class="form-button" @click="loginIn()" @keyup.enter="loginIn()">Continue</span>
         </div>
         <div class="for-register">
           <span class="for-register-text">I have no account,</span>
@@ -44,6 +46,7 @@ module.exports = {
   data: function () {
     return {
       payload: {},
+      errors: {},
     };
   },
   components: {
@@ -51,15 +54,26 @@ module.exports = {
   },
   methods: {
     loginIn: function () {
+      let formData = this.payload;
+      console.log(formData);
+      if(formData){
+
+      }
       this.$store.dispatch("signIn", this.payload);
     },
 
     onUpdate: function () {
+
       this.payload = {
         email: this.email,
         pass: this.pass,
       };
     },
+
+    validEmail: function (email) {
+      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
+    }
   },
   computed: {},
 };

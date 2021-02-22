@@ -1,9 +1,8 @@
 <template>
   <div class="add_card_container">
     <v-header></v-header>
- <div class="container">
-    <form class="add_card-form">
-     
+    <div class="container">
+      <form class="add_card-form">
         <span class="form_title">Add product</span>
         <div>
           <span class="input_title">title</span>
@@ -14,7 +13,11 @@
             placeholder="For example: Iron man suit"
             v-model="title"
             @input="onUpdate"
+            :class="{ input_error: titleError }"
           />
+          <span class="input_error-text" :class="{ error: titleError }"
+            >empty field</span
+          >
         </div>
         <div>
           <span class="input_title">locstion</span>
@@ -25,21 +28,29 @@
             placeholder="For example: Los Angeles, CA"
             v-model="location"
             @input="onUpdate"
+            :class="{ input_error: locError }"
           />
+          <span class="input_error-text" :class="{ error: locError }"
+            >empty field</span
+          >
         </div>
         <div>
           <span class="input_title">description</span>
           <textarea
             type="text"
             name="description"
+            :class="{ input_error: descError }"
             class="add_card-form_description"
             v-model="description"
             @input="onUpdate"
           />
+          <span class="input_error-text" :class="{ error: descError }"
+            >empty field</span
+          >
         </div>
         <div>
           <span class="input_title">photos</span>
-          <div class="add_card-form_images">
+          <div class="add_card-form_images" :class="{ input_error: imgError }">
             <input
               class="imgAdder"
               type="file"
@@ -56,6 +67,9 @@
               <div class="delete_button" @click="delImg(key)">DELETE</div>
             </div>
           </div>
+          <span class="input_error-text" :class="{ error: imgError }"
+            >empty field</span
+          >
         </div>
 
         <div>
@@ -67,12 +81,15 @@
             placeholder="Price"
             v-model="price"
             @input="onUpdate"
+            :class="{ input_error: priceError }"
           />
+          <span class="input_error-text" :class="{ error: priceError }"
+            >empty field</span
+          >
         </div>
 
         <span class="form-button" @click="addCard()">SUBMIT</span>
-      
-    </form>
+      </form>
     </div>
   </div>
 </template>
@@ -88,15 +105,33 @@ module.exports = {
       price: "",
       imgSrc: [],
       payload: {},
+      titleError: false,
+      imgError: false,
+      descError: false,
+      locError: false,
+      priceError: false,
     };
   },
   components: {
     "v-header": require("../components/v-page-header-add-card.vue"),
   },
   methods: {
-    addCard: function () {
+    addCard: function (e) {
       console.log(this.payload);
-      this.$store.dispatch("addCard", this.payload);
+
+      if (
+        this.titleError == true ||
+        this.imgError == true ||
+        this.descError == true ||
+        this.locError == true ||
+        this.priceError == true
+      ) {
+        console.log("ERROR!!!");
+        return;
+      } else {
+        console.log(this.payload);
+        this.$store.dispatch("addCard", this.payload);
+      }
     },
     addImg: function () {
       this.$refs.files.click();
@@ -107,18 +142,48 @@ module.exports = {
 
     handleFileUploads: function (e) {
       let uploadedFiles = this.$refs.files.files;
-
-      for (var i = 0; i < uploadedFiles.length; i++) {
-        this.img.push(uploadedFiles[i]);
-        let reader = new FileReader();
-        reader.readAsDataURL(this.img[i]);
-        reader.onload = () => {
-          this.imgSrc.push(reader.result);
-        };
+      if (!uploadedFiles.length) {
+        this.imgError = true;
+      } else {
+        this.imgError = false;
+        for (var i = 0; i < uploadedFiles.length; i++) {
+          this.img.push(uploadedFiles[i]);
+          let reader = new FileReader();
+          reader.readAsDataURL(this.img[i]);
+          reader.onload = () => {
+            this.imgSrc.push(reader.result);
+          };
+        }
       }
     },
 
     onUpdate: function () {
+      if (!this.title) {
+        this.titleError = true;
+      } else {
+        this.titleError = false;
+      }
+      if (!this.imgSrc.length) {
+        this.imgError = true;
+      } else {
+        this.imgError = false;
+      }
+      if (!this.description) {
+        this.descError = true;
+      } else {
+        this.descError = false;
+      }
+      if (!this.location) {
+        this.locError = true;
+      } else {
+        this.locError = false;
+      }
+      if (!this.price) {
+        this.priceError = true;
+      } else {
+        this.priceError = false;
+      }
+
       this.payload = {
         src: this.img,
         title: this.title,

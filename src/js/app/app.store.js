@@ -14,7 +14,7 @@ Vue.use(Vuex);
 module.exports = new Vuex.Store({
   state: {
     isLogeedIn: false,
-    currentUser: false,
+    currentUser: "",
     cards: [],
     liked: false,
   },
@@ -155,17 +155,22 @@ module.exports = new Vuex.Store({
       var likeRef = db.collection("cards").doc(id);
       likeRef.get().then((doc) => {
         let likeArray = doc.data().like;
-        let likeTrtue = likeArray.some(
+        console.log(likeArray);
+        let likeTrue = likeArray.some(
           (elem) => elem.user == this.state.currentUser
         );
-        // commit("isLiked", likeTrtue);
-        if (likeTrtue == true) {
+        if (likeTrue == true) {
           console.log("already liked");
-          console.log(likeArray);
-          let likeIndex = likeArray.findIndex(like => like.user = this.state.currentUser);
-          console.log( 'Item index for delete - ' + likeIndex);
-          likeRef.update({ regions: firebase.firestore.FieldValue.arrayRemove(...likeIndex)});
-          // likeRef.update({like : {likeIndex : firebase.firestore.FieldValue.delete()}});
+          likeRef
+            .update({
+              like: firebase.firestore.FieldValue.arrayRemove({
+                user: this.state.currentUser,
+                liked: true,
+              }),
+            })
+            .then(() => {
+              console.log("like is delete!");
+            });
         } else {
           console.log("not liked");
           likeRef

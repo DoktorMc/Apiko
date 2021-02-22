@@ -79,6 +79,7 @@ module.exports = {
 
     liker: function (id) {
       this.$store.dispatch("likeCard", id);
+      this.$store.dispatch("fetchCards");
     },
 
     sortByLow: function () {
