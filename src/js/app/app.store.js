@@ -1,6 +1,5 @@
 const Vue = require("vue");
 const Vuex = require("vuex");
-const AXIOS = require("axios");
 let firebase = require("firebase/firebase");
 let router = require("./app.router");
 require("./firebaseApp");
@@ -133,7 +132,7 @@ module.exports = new Vuex.Store({
           location: data.loc,
           price: data.price,
           description: data.desc,
-          like: [],
+          like: {},
         })
         .then(function (docRef) {
           console.log("Document written with ID: ", docRef.id);
@@ -155,18 +154,17 @@ module.exports = new Vuex.Store({
       var likeRef = db.collection("cards").doc(id);
       likeRef.get().then((doc) => {
         let likeArray = doc.data().like;
+
         console.log(likeArray);
-        let likeTrue = likeArray.some(
-          (elem) => elem.user == this.state.currentUser
-        );
+        let likeTrue = false;
+        let currUser = this.state.currentUser;
         if (likeTrue == true) {
           console.log("already liked");
           likeRef
-            .update({
-              like: firebase.firestore.FieldValue.arrayRemove({
-                user: this.state.currentUser,
-                liked: true,
-              }),
+            .set({
+              like : {
+                [currUser] : true
+              },
             })
             .then(() => {
               console.log("like is delete!");
@@ -175,10 +173,9 @@ module.exports = new Vuex.Store({
           console.log("not liked");
           likeRef
             .update({
-              like: firebase.firestore.FieldValue.arrayUnion({
-                user: this.state.currentUser,
-                liked: true,
-              }),
+              like : {
+                [currUser]: true,
+              },
             })
             .then(() => {
               console.log("Document successfully updated!");

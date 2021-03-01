@@ -1,5 +1,8 @@
 <template>
   <div class="add_card_container">
+    <div class="loader_layouts">
+      <span class="loader" id="loader"></span>
+    </div>
     <v-header></v-header>
     <div class="container">
       <form class="add_card-form">
@@ -88,7 +91,7 @@
           >
         </div>
 
-        <span class="form-button" @click="addCard()">SUBMIT</span>
+        <span class="form-button" @click="addCard($event)" dat-added="1" >SUBMIT</span>
       </form>
     </div>
   </div>
@@ -110,6 +113,7 @@ module.exports = {
       descError: false,
       locError: false,
       priceError: false,
+      loader: false,
     };
   },
   components: {
@@ -117,8 +121,7 @@ module.exports = {
   },
   methods: {
     addCard: function (e) {
-      console.log(this.payload);
-
+      
       if (
         this.titleError == true ||
         this.imgError == true ||
@@ -129,8 +132,14 @@ module.exports = {
         console.log("ERROR!!!");
         return;
       } else {
-        console.log(this.payload);
-        this.$store.dispatch("addCard", this.payload);
+        let attr = e.target.getAttribute("dat-added");
+        if (attr == 1) {
+          this.$store.dispatch("addCard", this.payload);
+          e.target.setAttribute("dat-added", 0);
+        }else{
+          alert('the card is already being added')
+          return;
+        }
       }
     },
     addImg: function () {

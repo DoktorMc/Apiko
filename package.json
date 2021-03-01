@@ -9,7 +9,6 @@
   "author": "Vito",
   "license": "ISC",
   "devDependencies": {
-    "axios": "^0.21.1",
     "browser-sync": "^2.26.14",
     "browserify": "*",
     "firebase": "8.0.1",
