@@ -149,33 +149,26 @@ module.exports = new Vuex.Store({
     },
 
     likeCard: function ({ commit }, id) {
-      console.log("id: " + id);
-
       var likeRef = db.collection("cards").doc(id);
       likeRef.get().then((doc) => {
         let likeArray = doc.data().like;
-
-        console.log(likeArray);
-        let likeTrue = false;
         let currUser = this.state.currentUser;
-        if (likeTrue == true) {
+        if (likeArray[currUser]) {
           console.log("already liked");
+          delete likeArray[currUser];
           likeRef
-            .set({
-              like : {
-                [currUser] : true
-              },
+            .update({
+              like: likeArray,
             })
             .then(() => {
               console.log("like is delete!");
             });
         } else {
           console.log("not liked");
+          likeArray[currUser] = true;
           likeRef
             .update({
-              like : {
-                [currUser]: true,
-              },
+              like: likeArray,
             })
             .then(() => {
               console.log("Document successfully updated!");
