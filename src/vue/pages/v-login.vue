@@ -17,6 +17,7 @@
               @input="onUpdate"
               @keyup.enter="loginIn()"
             />
+           
           </div>
           <div class="login_form-password">
             <span class="input_title">Password</span>
@@ -31,6 +32,7 @@
             />
           </div>
           <span class="form-button" @click="loginIn()" @keyup.enter="loginIn()">Continue</span>
+           <span class="login_form-errors" v-for="error in isError">{{error}}</span>
         </div>
         <div class="for-register">
           <span class="for-register-text">I have no account,</span>
@@ -46,7 +48,7 @@ module.exports = {
   data: function () {
     return {
       payload: {},
-      errors: {},
+      // errors: this.$store.state.logedInError,
     };
   },
   components: {
@@ -70,12 +72,13 @@ module.exports = {
       };
     },
 
-    validEmail: function (email) {
-      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(email);
+    
+  },
+  computed: {
+    isError: function () {
+      return this.$store.state.logedInError;
     }
   },
-  computed: {},
 };
 </script>
 

@@ -4,8 +4,8 @@ let firebase = require("firebase/firebase");
 let router = require("./app.router");
 require("./firebaseApp");
 
-var db = firebase.firestore();
-var storage = firebase.storage();
+let db = firebase.firestore();
+let storage = firebase.storage();
 let auth = firebase.auth();
 
 Vue.use(Vuex);
@@ -16,6 +16,7 @@ module.exports = new Vuex.Store({
     currentUser: "",
     cards: [],
     liked: false,
+    logedInError: [],
   },
 
   getters: {
@@ -92,6 +93,9 @@ module.exports = new Vuex.Store({
     isLiked(state, payload) {
       state.liked = payload;
     },
+    isLoginError(state, payload) {
+      state.logedInError = payload;
+    },
   },
 
   actions: {
@@ -136,20 +140,20 @@ module.exports = new Vuex.Store({
         })
         .then(function (docRef) {
           console.log("Document written with ID: ", docRef.id);
-          var cityRef = db.collection("cards").doc(docRef.id);
+          let cityRef = db.collection("cards").doc(docRef.id);
           cityRef.set({ id: docRef.id }, { merge: true });
           router.push("/");
         })
         .catch(function (error) {
           console.error("Error adding document: ", error.message);
 
-          var errorMessage = error.message;
+          let errorMessage = error.message;
           alert(`ERROR!!! ${errorMessage}`);
         });
     },
 
     likeCard: function ({ commit }, id) {
-      var likeRef = db.collection("cards").doc(id);
+      let likeRef = db.collection("cards").doc(id);
       likeRef.get().then((doc) => {
         let likeArray = doc.data().like;
         let currUser = this.state.currentUser;
@@ -185,14 +189,15 @@ module.exports = new Vuex.Store({
         .createUserWithEmailAndPassword(data.email, data.pass)
         .then((userCredential) => {
           // Signed in
-          var user = userCredential.user;
+          let user = userCredential.user;
           alert(`Account created for ${user.email}`);
           router.push("/login");
           // ...
         })
         .catch((error) => {
-          var errorCode = error.code;
-          var errorMessage = error.message;
+          // let errorCode = error.code;
+          let errorMessage = error.message;
+          console.log(error);
           alert(`ERROR!!! ${errorMessage}`);
           // ..
         });
@@ -203,7 +208,7 @@ module.exports = new Vuex.Store({
         .signInWithEmailAndPassword(data.email, data.pass)
         .then((userCredential) => {
           // Signed in
-          var user = userCredential.user;
+          let user = userCredential.user;
           console.log("User is " + user.uid + "    User email " + user.email);
           commit("isLoggedIn", true);
           commit("isCurrentUser", user.email);
@@ -211,9 +216,10 @@ module.exports = new Vuex.Store({
           // ...
         })
         .catch((error) => {
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          alert(`ERROR!!! ${errorMessage}`);
+          let errorCode = error.code;
+          let errorMessage = [];
+          errorMessage.push(error.message);
+          commit("isLoginError", errorMessage);
         });
     },
 
@@ -225,7 +231,7 @@ module.exports = new Vuex.Store({
         })
         .catch((error) => {
           // An error happened.
-          var errorMessage = error.message;
+          let errorMessage = error.message;
           alert(`ERROR!!! ${errorMessage}`);
         });
     },

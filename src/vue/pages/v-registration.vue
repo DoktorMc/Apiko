@@ -77,7 +77,7 @@ module.exports = {
     addUser: function () {
       if (Object.keys(this.payload).length == 0) {
         console.log("EROOR !!!");
-        this.$router.go(0);
+        // this.$router.go(0);
         return;
       } else {
         console.log(!this.payload.length);
@@ -101,6 +101,11 @@ module.exports = {
         return;
       }
     },
+
+    validEmail: function (email) {
+      let re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
+    }
   },
   computed: {},
 };

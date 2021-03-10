@@ -748,8 +748,12 @@
           margin-bottom: 32px;
         }
       }
+     
     }
-
+    .login_form-errors{
+      color: #ff0f0f;
+      font-size: 13px;
+    }
     .for-log_in,
     .for-register {
       width: 100%;
